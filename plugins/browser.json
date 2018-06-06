@@ -1,0 +1,49 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-battery-status": {
+      "PACKAGE_NAME": "org.app.umarket"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "org.app.umarket"
+    },
+    "cordova-plugin-media-capture": {
+      "PACKAGE_NAME": "org.app.umarket"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "org.app.umarket"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "org.app.umarket"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "org.app.umarket"
+    },
+    "cordova-plugin-globalization": {
+      "PACKAGE_NAME": "org.app.umarket"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "org.app.umarket"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "org.app.umarket"
+    },
+    "cordova-plugin-vibration": {
+      "PACKAGE_NAME": "org.app.umarket"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-compat": {
+      "PACKAGE_NAME": "org.app.umarket"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "org.app.umarket"
+    }
+  }
+}
