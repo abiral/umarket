@@ -1,11 +1,26 @@
 .header{
-    background: #8787ea;
-    color: #fff;
+    background: #090946;
+    text-align: center;
+}
+
+.section-title{
+    text-align: center;
+}
+
+.header .card-title {
+    text-align: center;
+    color:#fff;
     font-size: 26px;
     font-weight: bold;
     text-transform: uppercase;
-    padding: 20px;
-    text-align: center;
+}
+
+ons-back-button .back-button__icon{
+    fill: #fff;
+}
+
+ons-back-button .back-button__label{
+    color:#fff;
 }
 
 .page__content {
@@ -24,7 +39,9 @@
 }
 
 .button.button-primary{
-    background: #00f;
+    background: #ededf1;
+    border: solid 1px #bdbdbd;
+    color: #333;
 }
 
 .button.button-secondary{
