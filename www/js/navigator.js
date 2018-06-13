@@ -18,11 +18,22 @@ jQuery(document).on('init', event => {
       titleBar.html(page.data.title);
     break;
 
+    case "panel":
+      console.log("Panel");
+      if(role == 'buyer'){
+        document.getElementById('seller-tab').setTabbarVisibility('false');
+        document.getElementById('buyer-tab').setTabbarVisibility('true');
+      }else{
+        document.getElementById('seller-tab').setTabbarVisibility('true');
+        document.getElementById('buyer-tab').setTabbarVisibility('false');
+      }
+    break;
+
     case 'signup':
       titleBar.html(page.data.title);
     break;
 
-    case 'dashboard':
+    case 'category':
       redirectIfLoggedIn();
 
       if(role == 'buyer'){
@@ -76,7 +87,7 @@ jQuery(document).on('init', event => {
     break;
 
     case 'products':
-    case 'seller-panel':
+    case 'dashboard':
     
       if(role == 'buyer'){
         jQuery('ons-fab').remove();

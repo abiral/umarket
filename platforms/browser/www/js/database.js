@@ -2,37 +2,82 @@ window.db = null;
 store = {
     install : (successCB, errorCB) => {
         db.transaction(function(tx){
-            tx.executeSql( 'CREATE TABLE IF NOT EXISTS category ( \
+            
+            tx.executeSql( 'CREATE TABLE category ( \
                 name TEXT NOT NULL, \
                 date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP \
-            );' );
-            
-            tx.executeSql( 'CREATE TABLE IF NOT EXISTS users ( \
-                username TEXT NOT NULL, \
-                password TEXT NOT NULL, \
-                email TEXT NOT NULL, \
-                role TEXT NOT NULL, \
-                business_name TEXT, \
-                abn INTEGER, \
-                business_type TEXT, \
-                contact TEXT, \
-                phone TEXT, \
-                address TEXT, \
-                date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP \
-            );' );
-            
-            tx.executeSql( 'CREATE TABLE IF NOT EXISTS product ( \
-                name TEXT NOT NULL, \
-                price TEXT, \
-                category INTEGER, \
-                supplier INTEGER, \
-                delivery_time TEXT, \
-                photo TEXT, \
-                date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP, \
-                FOREIGN KEY(category) REFERENCES category (rowid) \
-                FOREIGN KEY(supplier) REFERENCES users (rowid) \
-            );' );
-        }, errorCB, successCB);
+            );', [], (tx, result) => {
+                tx.executeSql(`INSERT INTO category (name) VALUES ("Vegetables"),("Fruits"),("Breads"),("Beverage"),("Meat"),("Fish")`, [], (tx, result) => {           
+                    tx.executeSql( 'CREATE TABLE users ( \
+                        username TEXT NOT NULL, \
+                        password TEXT NOT NULL, \
+                        email TEXT NOT NULL, \
+                        role TEXT NOT NULL, \
+                        business_name TEXT, \
+                        abn INTEGER, \
+                        business_type TEXT, \
+                        contact TEXT, \
+                        phone TEXT, \
+                        address TEXT, \
+                        date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP \
+                    );', [], (tx, result) => {
+                        let sql = `INSERT INTO users 
+                            (username, password, email, role, business_name, abn, business_type, contact, phone, address)
+                            VALUES (
+                                "john",
+                                "john",
+                                "john.doe@gmail.com",
+                                "seller",
+                                "Grocery Pvt Ltd.",
+                                452192,
+                                "Agriculture",
+                                "John Doe",
+                                "9831234561",
+                                "Itahari, Nepal"
+                            ),(
+                                "jane",
+                                "jane",
+                                "jane.doe@gmail.com",
+                                "buyer",
+                                "",
+                                0,
+                                "",
+                                "Jane Doe",
+                                "9868684930",
+                                "Butwal, Nepal"
+                            )`;
+                            tx.executeSql(sql,[], (tx, result) => {
+                                tx.executeSql( 'CREATE TABLE product ( \
+                                    name TEXT NOT NULL, \
+                                    price TEXT, \
+                                    category INTEGER, \
+                                    supplier INTEGER, \
+                                    delivery_time TEXT, \
+                                    photo TEXT, \
+                                    date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP, \
+                                    FOREIGN KEY(category) REFERENCES category (rowid) \
+                                    FOREIGN KEY(supplier) REFERENCES users (rowid) \
+                                );',[], successCB, errorCB );
+                            });
+                    }, (tx, err) => { console.error(err.message)} );
+
+                }, (tx, err) => { console.error(err.message); });
+            }, (tx, err) => { console.error(err.message)} );
+
+        }, errorCB);
+    },
+
+    removeJunks : (successCB, errorCB) => {
+        window.localStorage.removeItem("IsUmarketInstalled");
+        window.localStorage.removeItem("user");
+        window.localStorage.removeItem("role");
+        db.transaction(function(tx){
+            tx.executeSql( 'DROP TABLE category', [], (tx, result) => {
+                tx.executeSql( 'DROP TABLE users', [], (tx, result) => {
+                    tx.executeSql( 'DROP TABLE product', [], successCB, errorCB);        
+                } );
+            } );    
+        });        
     },
 
     verifyUser: (username, password, successCB, errorCB) => {
@@ -59,7 +104,6 @@ store = {
                 "${payload.address}"
             )`;
 
-            console.log(sql);
             tx.executeSql(sql, [], successCB, errorCB);
         });
     },
@@ -136,20 +180,11 @@ store = {
 document.addEventListener("deviceready", () => {
     window.db = window.openDatabase("umarket", "1.0", "U-Market", 1000000);
     let storage = window.localStorage;
-    let IsDbInstalled = storage.getItem("IsDbInstalled");
+    let IsUmarketInstalled = storage.getItem("IsUmarketInstalled");
     
-    db.transaction(function(tx){
-        /*tx.executeSql( 'DROP TABLE category' );
-        tx.executeSql( 'DROP TABLE users' );
-        tx.executeSql( 'DROP TABLE product' );
-        storage.removeItem("IsDbInstalled");
-        storage.removeItem("user");
-        storage.removeItem("role");*/
-
-        if(IsDbInstalled == null || IsDbInstalled == 0){  
-            store.install(() => {
-                storage.setItem("IsDbInstalled", 1);
-            }, err => { console.error(err); });
-        }
-    });
+    if(IsUmarketInstalled == null || IsUmarketInstalled == 0){  
+        store.install(() => {
+            storage.setItem("IsUmarketInstalled", 1);
+        }, err => { console.error(err); });
+    }
 }, false);

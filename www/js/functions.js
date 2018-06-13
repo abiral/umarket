@@ -14,11 +14,13 @@ let login = () => {
 
             window.localStorage.setItem("role", result.rows[0].role);
             
-            if(role == 'seller'){
-                document.querySelector('#navigator').pushPage('seller-panel.html');
+            document.querySelector('#navigator').pushPage('panel.html', {data: {title: 'Panel'}});
+
+            /*if(role == 'seller'){
+                document.querySelector('#navigator').pushPage('dashboard.html');
             }else{
-                document.querySelector('#navigator').pushPage('panel.html', {data: {title: 'Panel'}});
-            }
+                
+            }*/
         }else{
             ons.notification.alert('Incorrect username or password.', {title: 'Invalid'});
         }

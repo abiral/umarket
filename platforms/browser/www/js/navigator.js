@@ -2,7 +2,7 @@ jQuery(document).on('init', event => {
   let page = event.target;
   let elem = jQuery(page);
   let nav = jQuery('#navigator')[0];
-  let titleBar = elem.find('.toolbar .card-title');
+  let titleBar = elem.find('.toolbar .section-title');
   let role = window.localStorage.getItem("role");
 
   let filterList = event => {
@@ -18,11 +18,22 @@ jQuery(document).on('init', event => {
       titleBar.html(page.data.title);
     break;
 
+    case "panel":
+      console.log("Panel");
+      if(role == 'buyer'){
+        document.getElementById('seller-tab').setTabbarVisibility('false');
+        document.getElementById('buyer-tab').setTabbarVisibility('true');
+      }else{
+        document.getElementById('seller-tab').setTabbarVisibility('true');
+        document.getElementById('buyer-tab').setTabbarVisibility('false');
+      }
+    break;
+
     case 'signup':
       titleBar.html(page.data.title);
     break;
 
-    case 'dashboard':
+    case 'category':
       redirectIfLoggedIn();
 
       if(role == 'buyer'){
@@ -76,6 +87,8 @@ jQuery(document).on('init', event => {
     break;
 
     case 'products':
+    case 'dashboard':
+    
       if(role == 'buyer'){
         jQuery('ons-fab').remove();
       }
@@ -178,10 +191,21 @@ jQuery(document).on('init', event => {
       elem.find('#sign-me-up').on('tap', () => {
         nav.pushPage('signup.html', {data: {title: 'Register'}});
       });
+
+      jQuery(document).on('click', '#reset', event => {
+        store.removeJunks( (tx, result) => {
+          store.install( (tx, result) => {
+              ons.notification.alert("Database reset done", {title: "Success"});
+          }, (tx, err) => {
+            ons.notification.alert(err, {title: 'Error'});
+          });
+        }, (tx, err) => {
+            ons.notification.alert(err, {title: 'Error'});
+        });
+      });
   }
 
-  let goBack = () => {
-    console.log("Going back");
+  let goBack = () => {    
     nav.popPage();
   };
 

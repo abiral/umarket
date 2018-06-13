@@ -8,10 +8,10 @@
     </feature>
     <name>UMarket</name>
     <description>
-        Hello World sample application that responds to the deviceready event.
+        A simple B2B application where seller adds products, and buyer views it.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="abiral.neupane@gmail.com" href="https://abiralneupane.com.np">
+        Abiral Neupane
     </author>
     <content src="index.html" />
     <access origin="*" />

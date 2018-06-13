@@ -135,16 +135,23 @@
     
     <template id="panel.html">
         <ons-page id="panel" >
-            <ons-tabbar >
-                <ons-tab class="nav-tab tab-category" label="Categories" page="dashboard.html" icon="md-tag" active></ons-tab>
+            <ons-tabbar id="seller-tab">
+                <ons-tab class="nav-tab tab-dashboard" label="Categories" page="dashboard.html" icon="md-home" active></ons-tab>
+                <ons-tab class="nav-tab tab-category" label="Categories" page="category.html" icon="md-tag"></ons-tab>
+                <ons-tab class="nav-tab tab-product" label="Products" page="products.html" icon="md-shopping-cart"></ons-tab>
+                <ons-tab class="nav-tab" label="Logout" onclick="logMeOut()" icon="md-power"></ons-tab>
+            </ons-tabbar>
+
+            <ons-tabbar id="buyer-tab">
+                <ons-tab class="nav-tab tab-category" label="Categories" page="category.html" icon="md-tag" active ></ons-tab>
                 <ons-tab class="nav-tab tab-product" label="Products" page="products.html" icon="md-shopping-cart"></ons-tab>
                 <ons-tab class="nav-tab" label="Logout" onclick="logMeOut()" icon="md-power"></ons-tab>
             </ons-tabbar>
         </ons-page>
     </template>
 
-    <template id="seller-panel.html">
-        <ons-page id="seller-panel" >
+    <template id="dashboard.html">
+        <ons-page id="dashboard" >
             <ons-toolbar class="toolbar header" inline>
                 <div class="left"><ons-back-button>Back</ons-back-button></div>
                 <div class="card-title toolbar__center">U-Market</div>
@@ -153,14 +160,14 @@
             <h3 class="section-title">Dashboard</h3>
 
             <div class="card-content">
-                <img src="img/banner.jpg" />
+                <img src="img/banner.jpg" style="width:100%;" />
                 <button id="add-new-product" class="button button--material button-secondary button-cta">Add New Product</button>
             </div>
         </ons-page>
     </template>
     
-    <template id="dashboard.html">
-        <ons-page id="dashboard" >
+    <template id="category.html">
+        <ons-page id="category" >
             
             <ons-toolbar class="toolbar header" inline>
                 <div class="left"><ons-back-button>Back</ons-back-button></div>

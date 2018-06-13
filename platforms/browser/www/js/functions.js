@@ -7,22 +7,26 @@ let login = () => {
         p: jQuery('#password').val()
     };
 
-    if(payload.u == 'a' && payload.p == 'a'){
-        document.querySelector('#navigator').pushPage('panel.html', {data: {title: 'Panel'}});
-    }else{
-        store.verifyUser(payload.u, payload.p, (tx, result) => {
-            if(result.rows.length > 0){
-                window.localStorage.setItem("user", result.rows[0].rowid);
-                window.localStorage.setItem("role", result.rows[0].role);
-                document.querySelector('#navigator').pushPage('panel.html', {data: {title: 'Panel'}});
+    store.verifyUser(payload.u, payload.p, (tx, result) => {
+        if(result.rows.length > 0){
+            window.localStorage.setItem("user", result.rows[0].rowid);
+            let role = result.rows[0].role;
 
+            window.localStorage.setItem("role", result.rows[0].role);
+            
+            document.querySelector('#navigator').pushPage('panel.html', {data: {title: 'Panel'}});
+
+            /*if(role == 'seller'){
+                document.querySelector('#navigator').pushPage('dashboard.html');
             }else{
-                ons.notification.alert('Incorrect username or password.', {title: 'Invalid'});
-            }
-        }, (tx, err) => {
-
-        });
-    }    
+                
+            }*/
+        }else{
+            ons.notification.alert('Incorrect username or password.', {title: 'Invalid'});
+        }
+    }, (tx, err) => {
+        console.error(err);
+    });  
 };
 
 let register = () => {
@@ -40,13 +44,21 @@ let register = () => {
         password : jQuery('#password').val(),
     };
 
-    store.createUser(payload, (tx, result)=> {
-        window.localStorage.setItem("user", result.insertId);
-        window.localStorage.setItem("role", payload.role);
-        document.querySelector('#navigator').pushPage('panel.html', {data: {title: 'Panel'}});
-    }, ( tx, err) => {
-        console.error(err.message);
-    })
+    if(payload.username == "" && payload.password == "" && payload.email == "" && payload.role == ""){
+        ons.notification.alert("Username, Password, Email, and Type are mandatory fields.",{title: "Incomplete data"});
+    }else if(payload.role == ""){
+        ons.notification.alert("Please select type too.",{title: "Incomplete data"});
+    }else{
+        store.createUser(payload, (tx, result)=> {
+            window.localStorage.setItem("user", result.insertId);
+            window.localStorage.setItem("role", payload.role);
+            document.querySelector('#navigator').pushPage('panel.html', {data: {title: 'Panel'}});
+        }, ( tx, err) => {
+            console.error(err.message);
+        });    
+    }
+
+    
 }
 
 let logMeOut = () => {
@@ -166,7 +178,7 @@ let uploadImage = (source, successCB, errorCB) => {
 
 let addProduct = () => {
     getCategory((tx, data) => {
-        if(data.rows.length > 0){
+        //if(data.rows.length > 0){
             let options="";
             for(let i = 0; i<data.rows.length; i++){
                 options += `<option value="${data.rows[i].rowid}">${data.rows[i].name}</option>`;
@@ -176,10 +188,10 @@ let addProduct = () => {
                 jQuery('#category select').html(options);
             });
 
-        }else{
+        /*}else{
             ons.notification.alert('You need to have atleast one category first', {title: 'No category available'});
             document.querySelector('#navigator').pushPage('dashboard.html', {data: {title: 'Categories'}, animation: 'lift'});
-        }
+        }*/
     },(tx, err) => {
         console.error(err.message);
     }, false);
