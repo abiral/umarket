@@ -133,16 +133,20 @@
         </ons-page>
     </template>
     
-    <template id="panel.html">
-        <ons-page id="panel" >
-            <ons-tabbar id="seller-tab">
-                <ons-tab class="nav-tab tab-dashboard" label="Categories" page="dashboard.html" icon="md-home" active></ons-tab>
+    <template id="seller-panel.html">
+        <ons-page id="seller-panel" >
+            <ons-tabbar>
+                <ons-tab class="nav-tab tab-dashboard" label="Home" page="dashboard.html" icon="md-home" active></ons-tab>
                 <ons-tab class="nav-tab tab-category" label="Categories" page="category.html" icon="md-tag"></ons-tab>
                 <ons-tab class="nav-tab tab-product" label="Products" page="products.html" icon="md-shopping-cart"></ons-tab>
                 <ons-tab class="nav-tab" label="Logout" onclick="logMeOut()" icon="md-power"></ons-tab>
             </ons-tabbar>
+        </ons-page>
+    </template>
 
-            <ons-tabbar id="buyer-tab">
+    <template id="buyer-panel.html">
+        <ons-page id="buyer-panel" >
+        	<ons-tabbar>
                 <ons-tab class="nav-tab tab-category" label="Categories" page="category.html" icon="md-tag" active ></ons-tab>
                 <ons-tab class="nav-tab tab-product" label="Products" page="products.html" icon="md-shopping-cart"></ons-tab>
                 <ons-tab class="nav-tab" label="Logout" onclick="logMeOut()" icon="md-power"></ons-tab>

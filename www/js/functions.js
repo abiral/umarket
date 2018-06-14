@@ -13,14 +13,11 @@ let login = () => {
             let role = result.rows[0].role;
 
             window.localStorage.setItem("role", result.rows[0].role);
-            
-            document.querySelector('#navigator').pushPage('panel.html', {data: {title: 'Panel'}});
-
-            /*if(role == 'seller'){
-                document.querySelector('#navigator').pushPage('dashboard.html');
+            if(role == 'buyer'){
+                document.querySelector('#navigator').pushPage('buyer-panel.html', {data: {title: 'Panel'}});
             }else{
-                
-            }*/
+                document.querySelector('#navigator').pushPage('seller-panel.html', {data: {title: 'Panel'}});
+              }
         }else{
             ons.notification.alert('Incorrect username or password.', {title: 'Invalid'});
         }
@@ -52,7 +49,12 @@ let register = () => {
         store.createUser(payload, (tx, result)=> {
             window.localStorage.setItem("user", result.insertId);
             window.localStorage.setItem("role", payload.role);
-            document.querySelector('#navigator').pushPage('panel.html', {data: {title: 'Panel'}});
+              if(payload.role == 'buyer'){
+                    document.querySelector('#navigator').pushPage('buyer-panel.html', {data: {title: 'Panel'}});
+              }else{
+                    document.querySelector('#navigator').pushPage('seller-panel.html', {data: {title: 'Panel'}});
+              }
+            
         }, ( tx, err) => {
             console.error(err.message);
         });    
@@ -66,16 +68,6 @@ let logMeOut = () => {
     window.localStorage.removeItem("role");
     document.querySelector('#navigator').pushPage('home.html', {data: {title: 'Welcome'}});
     ons.notification.alert('You are successfully logged out', {title: 'Logged Out'});
-}
-
-let redirectIfLoggedIn = () => {
-    let nav = jQuery('#navigator')[0];
-    let user = window.localStorage.getItem("user");
-    if(user == null){
-        nav.pushPage('home.html', {data: {title: 'Welcome'}});
-        //let role = window.localStorage.getItem("role");
-        //nav.pushPage('panel.html', {data: {title: 'Panel'}});
-    }
 }
 
 let addCategory = () => {

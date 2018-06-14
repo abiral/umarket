@@ -18,24 +18,11 @@ jQuery(document).on('init', event => {
       titleBar.html(page.data.title);
     break;
 
-    case "panel":
-      console.log("Panel");
-      if(role == 'buyer'){
-        document.getElementById('seller-tab').setTabbarVisibility('false');
-        document.getElementById('buyer-tab').setTabbarVisibility('true');
-      }else{
-        document.getElementById('seller-tab').setTabbarVisibility('true');
-        document.getElementById('buyer-tab').setTabbarVisibility('false');
-      }
-    break;
-
     case 'signup':
       titleBar.html(page.data.title);
     break;
 
     case 'category':
-      redirectIfLoggedIn();
-
       if(role == 'buyer'){
         jQuery('ons-fab').remove();
       }
@@ -44,7 +31,7 @@ jQuery(document).on('init', event => {
 
       let activeCategory = null;
 
-      jQuery(document).on('change', 'ons-search-input', filterList );
+      jQuery(document).on('input', 'ons-search-input', filterList );
       
       jQuery(document).on('tap', '.category-item', event => {
         let el = event.currentTarget;
@@ -106,7 +93,7 @@ jQuery(document).on('init', event => {
         getProduct();
       }
 
-      jQuery(document).on('change', 'ons-search-input', filterList );
+      jQuery(document).on('input', 'ons-search-input', filterList );
 
       let activeProduct = null;
 
